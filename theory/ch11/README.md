@@ -1,14 +1,6 @@
+## homework
 
-
-## hw
-
-![](hw_pict/1.jpg)
-
-![](hw_pict/2.jpg)
-
-![](hw_pict/3.jpg)
-
-![](hw_pict/4.jpg)
+[homework](hw/README.md)
 
 ### conclusion
 
