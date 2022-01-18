@@ -20,7 +20,8 @@ class Vector_equation:
     theta_AB: 已知向量的 `角度` (`弧度`)
     theta_PB: 已知向量的 `角度` (`弧度`)
 
-    ![](../pict/2.png)
+    ![](../pict/3.jpg)
+
 
     ### Method
 
