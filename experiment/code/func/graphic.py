@@ -103,16 +103,16 @@ class Vect_Shape:
                      textcoords='offset points')
         self.__call_plt_show()
 
-    def show_acc(self, i, P, A, B, C2, D):
+    def show_acc(self, P, A, B, C2, D):
         self.fig = plt.figure()
         ax = self.fig.add_subplot(111)
         ax.set_title(self.id_name, fontsize=12, color='r')
-        self.__draw_acc(ax, P, A)
-        self.__draw_acc(ax, A, B)
-        self.__draw_acc(ax, P, B)
-        self.__draw_acc(ax, P, C2)
-        self.__draw_acc(ax, A, D)
-        self.__draw_acc(ax, D, B)
+        self.__draw_vec(ax, P, A)
+        self.__draw_vec(ax, A, B)
+        self.__draw_vec(ax, P, B)
+        self.__draw_vec(ax, P, C2)
+        self.__draw_vec(ax, A, D)
+        self.__draw_vec(ax, D, B)
         plt.annotate("p",
                      xy=(P['x'], P['y']),
                      xytext=(2, 4),
