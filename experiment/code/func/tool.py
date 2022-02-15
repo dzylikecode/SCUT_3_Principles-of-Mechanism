@@ -3,15 +3,6 @@ import sympy
 import math
 
 
-def xy_to_polar_theta(x, y):
-    """
-    根据直角坐标计算对应的`角度`
-    """
-    z = complex(x, y)
-    (_, theta) = cmath.polar(z)
-    return theta
-
-
 class Vector_equation:
     """
     ## import
@@ -20,7 +11,7 @@ class Vector_equation:
     theta_AB: 已知向量的 `角度` (`弧度`)
     theta_PB: 已知向量的 `角度` (`弧度`)
 
-    ![](../pict/3.jpg)
+    ![](../pict/2.png)
 
 
     ### Method
@@ -44,8 +35,8 @@ class Vector_equation:
         # x,y 为 PB 与 AB 的交点
         x, y, t1, t2 = sympy.symbols('x, y, t1, t2')
         # AB 的参数方程 交于交点
-        fun_AB_x = self.PA.x + t1 * math.cos(self.theta_AB) - x
-        fun_AB_y = self.PA.y + t1 * math.sin(self.theta_AB) - y
+        fun_AB_x = self.PA['x'] + t1 * math.cos(self.theta_AB) - x
+        fun_AB_y = self.PA['y'] + t1 * math.sin(self.theta_AB) - y
         # 同理 PB
         fun_PB_x = t2 * math.cos(self.theta_PB) - x
         fun_PB_y = t2 * math.sin(self.theta_PB) - y
@@ -53,3 +44,11 @@ class Vector_equation:
                              [x, y, t1, t2])
         self.x = result[x]
         self.y = result[y]
+
+
+def solve_triangle(PA, theta_AB, theta_PB):
+    temp_PA = {'x': PA.real, 'y': PA.imag}
+    temp_theta_AB = theta_AB
+    temp_theta_PB = theta_PB
+    temp_vector = Vector_equation(temp_PA, temp_theta_AB, temp_theta_PB)
+    return (temp_vector.x, temp_vector.y)
