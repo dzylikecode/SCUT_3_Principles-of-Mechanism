@@ -1,7 +1,7 @@
 import cmath
 import sympy
 import math
-
+import numpy as np
 
 class Vector_equation:
     """
@@ -53,3 +53,24 @@ def solve_triangle(PA, theta_AB, theta_PB):
     temp_vector = Vector_equation(temp_PA, temp_theta_AB, temp_theta_PB)
     return (temp_vector.x, temp_vector.y)
 
+
+def cross_product_complex(a, b):
+    return a.real * b.imag - a.imag * b.real
+
+
+from scipy import integrate
+
+def integrate_md(angle, Md):
+    """return the area of the Md"""
+    temp_angle = np.array(angle.copy())
+    temp_angle = temp_angle[0] - temp_angle
+    temp_angle_1 = temp_angle + 360
+    temp_angle = np.append(temp_angle, temp_angle_1)
+    temp_angle = np.append(temp_angle, [720])
+
+    temp_angle = temp_angle / 360 * 2 * math.pi
+
+    temp_Md = np.array(Md.copy())
+    temp_Md = np.append(temp_Md, [Md[0]])
+
+    return integrate.trapz(temp_Md, temp_angle)

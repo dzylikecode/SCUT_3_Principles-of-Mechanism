@@ -71,6 +71,17 @@ class Vect_Shape:
         v = B['y'] - A['y']
         ax.quiver(x, y, u, v, angles='xy', scale_units='xy', scale=1)
 
+    def __draw_vec_ex(self, ax, A, B, title):
+        x = A['x']
+        y = A['y']
+        u = B['x'] - A['x']
+        v = B['y'] - A['y']
+        ax.quiver(x, y, u, v, angles='xy', scale_units='xy', scale=1)
+        plt.annotate(title,
+                     xy=((A['x'] + B['x']) / 2, (A['y'] + B['y']) / 2),
+                     xytext=(2, 4),
+                     textcoords='offset points')
+
     def __call_plt_show(self):
         plt.axis('scaled')
         #changes limits of x or y axis so that equal increments of x and y have the same length
@@ -135,6 +146,38 @@ class Vect_Shape:
                      textcoords='offset points')
         self.__call_plt_show()
 
+    def show_force(self, P, A, B, C, D):
+        self.fig = plt.figure()
+        ax = self.fig.add_subplot(111)
+        ax.set_title(self.id_name, fontsize=12, color='r')
+        self.__draw_vec_ex(ax, P, A, "P+Q2")
+        self.__draw_vec_ex(ax, A, B, "Pi2")
+        self.__draw_vec_ex(ax, B, C, "R12n")
+        self.__draw_vec_ex(ax, C, D, "R12t")
+        self.__draw_vec_ex(ax, D, P, "R03")
+        self.__draw_vec_ex(ax, B, D, "R12")
+        plt.annotate("p",
+                     xy=(P['x'], P['y']),
+                     xytext=(2, 4),
+                     textcoords='offset points')
+        plt.annotate("a",
+                     xy=(A['x'], A['y']),
+                     xytext=(-2, -4),
+                     textcoords='offset points')
+        plt.annotate("b",
+                     xy=(B['x'], B['y']),
+                     xytext=(4, -2),
+                     textcoords='offset points')
+        plt.annotate("c",
+                     xy=(C['x'], C['y']),
+                     xytext=(-4, -10),
+                     textcoords='offset points')
+        plt.annotate("d",
+                     xy=(D['x'], D['y']),
+                     xytext=(-4, -10),
+                     textcoords='offset points')
+        self.__call_plt_show()
+
 
 def draw_velocity_figure(v_OA, v_OB, v_C2, id_name):
     P = {'x': 0, 'y': 0}
@@ -153,6 +196,8 @@ def draw_acceleration_figure(a_OA, a_OB, a_OD, a_C2, id_name):
     D = {'x': a_OD.real, 'y': a_OD.imag}
     fig = Vect_Shape(id_name)
     fig.show_acc(P, A, B, C2, D)
+
+
 
 
 from scipy.interpolate import make_interp_spline
@@ -238,3 +283,31 @@ def draw_sketch_a(angle, acc, title):
     temp_name = np.append(temp_name, [temp_name[0]])
 
     draw_smooth_cur(temp_angle, temp_acc, title, temp_name)
+
+def draw_force_figure(force):
+    temp_p = {'x': 0, 'y': 0}
+    P_Q2 = force.F_P + force.F_Q2
+    temp_P_Q2_A = {'x': P_Q2.real, 'y': P_Q2.imag}
+    Pi2 = P_Q2 + force.F_Pi2
+    temp_Pi2_B = {'x': Pi2.real, 'y': Pi2.imag}
+    R12_n = Pi2 + force.F_R12_n
+    temp_R12_n_C = {'x': R12_n.real, 'y': R12_n.imag}
+    R03_D = R12_n + force.F_R12_t
+    temp_R03_D = {'x': R03_D.real, 'y': R03_D.imag}
+    fig = Vect_Shape(force.id_name)
+    fig.show_force(temp_p, temp_P_Q2_A, temp_Pi2_B, temp_R12_n_C, temp_R03_D)
+
+def draw_sketch_Md(angle, Md, title):
+    temp_angle = np.array(angle.copy())
+    temp_angle = temp_angle[0] - temp_angle
+    temp_angle_1 = temp_angle + 360
+    temp_angle = np.append(temp_angle, temp_angle_1)
+    temp_angle = np.append(temp_angle, [720])
+
+    temp_Md = np.array(Md.copy())
+    temp_Md = np.append(temp_Md, [Md[0]])
+
+    temp_name = np.array(test_for_my.name_list_1.copy())
+    temp_name = np.append(temp_name, [temp_name[0]])
+
+    draw_smooth_cur(temp_angle, temp_Md, title, temp_name)
