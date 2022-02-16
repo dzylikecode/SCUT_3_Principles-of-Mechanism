@@ -52,3 +52,4 @@ def solve_triangle(PA, theta_AB, theta_PB):
     temp_theta_PB = theta_PB
     temp_vector = Vector_equation(temp_PA, temp_theta_AB, temp_theta_PB)
     return (temp_vector.x, temp_vector.y)
+

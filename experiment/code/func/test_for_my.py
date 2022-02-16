@@ -6,5 +6,4 @@ name_list_1 = [
     'A18', "A18'", 'A19', 'A20', 'A21', "A21'", 'A22', 'A23'
 ]
 
-name_list_2 = name_list_1[0:16]
-
+name_list_2 = name_list_1[0:15]

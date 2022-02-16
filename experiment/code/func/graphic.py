@@ -153,3 +153,88 @@ def draw_acceleration_figure(a_OA, a_OB, a_OD, a_C2, id_name):
     D = {'x': a_OD.real, 'y': a_OD.imag}
     fig = Vect_Shape(id_name)
     fig.show_acc(P, A, B, C2, D)
+
+
+from scipy.interpolate import make_interp_spline
+import numpy as np
+
+
+def draw_smooth_cur(x, y, title, name):
+    x_max = max(x)
+    x_min = min(x)
+    model = make_interp_spline(x, y)
+    # plt.plot(x,
+    #          y,
+    #          color='red',
+    #          #alpha=0.3,
+    #          #linestyle='--',
+    #          #linewidth=5,
+    #          marker='x',
+    #          markeredgecolor='r',
+    #          markersize='5',
+    #          markeredgewidth=10)
+    plt.scatter(x, y, c='red')
+
+    for key_x, key_y, key_name in zip(x, y, name):
+        plt.annotate(key_name,
+                     xy=(key_x, key_y),
+                     xytext=(-4, 0),
+                     textcoords='offset points')
+
+    xs = np.linspace(x_min, x_max, 500)
+    ys = model(xs)
+
+    plt.plot(xs, ys)
+    plt.title(title)
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.show()
+
+
+import numpy as np
+from . import test_for_my
+
+
+def draw_sketch_s(angle, s, title):
+    temp_angle = np.array(angle.copy())
+    temp_angle = temp_angle[0] - temp_angle
+    temp_angle = np.append(temp_angle, [360])
+
+    temp_s = np.array(s.copy())
+    temp_s = np.append(temp_s, [s[0]])
+    temp_s = temp_s[0] - temp_s
+
+    temp_name = np.array(test_for_my.name_list_2.copy())
+    temp_name = np.append(temp_name, [temp_name[0]])
+
+    draw_smooth_cur(temp_angle, temp_s, title, temp_name)
+
+
+def draw_sketch_v(angle, vel, title):
+    temp_angle = np.array(angle.copy())
+    temp_angle = temp_angle[0] - temp_angle
+    temp_angle = np.append(temp_angle, [360])
+
+    temp_vel = np.array(vel.copy())
+    temp_vel = np.append(temp_vel, [vel[0]])
+    temp_vel = -temp_vel
+
+    temp_name = np.array(test_for_my.name_list_2.copy())
+    temp_name = np.append(temp_name, [temp_name[0]])
+
+    draw_smooth_cur(temp_angle, temp_vel, title, temp_name)
+
+
+def draw_sketch_a(angle, acc, title):
+    temp_angle = np.array(angle.copy())
+    temp_angle = temp_angle[0] - temp_angle
+    temp_angle = np.append(temp_angle, [360])
+
+    temp_acc = np.array(acc.copy())
+    temp_acc = np.append(temp_acc, [acc[0]])
+    temp_acc = -temp_acc
+
+    temp_name = np.array(test_for_my.name_list_2.copy())
+    temp_name = np.append(temp_name, [temp_name[0]])
+
+    draw_smooth_cur(temp_angle, temp_acc, title, temp_name)
